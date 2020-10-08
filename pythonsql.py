@@ -3,8 +3,8 @@ import mysql.connector as sql
 import tkinter
 from tkinter import ttk
 
-global testList
-testList = ["SAT", "TOEFL", "IELTS", "SAT Maths 2", "SAT Maths 1", "SAT Literature", "SAT Philosophy", "SAT Japanese", "SAT US History", "SAT World History", "JLPTN1", "JLPTN2", "JLPTN3", "JLPTN4", "JLPTN5"]
+global testsList
+testsList = ["SAT", "TOEFL", "IELTS", "SAT Maths 2", "SAT Maths 1", "SAT Literature", "SAT Philosophy", "SAT Japanese", "SAT US History", "SAT World History", "JLPTN1", "JLPTN2", "JLPTN3", "JLPTN4", "JLPTN5"]
 global subjectList
 subjectList = ["Maths", "Physics", "Chemistry", "English", "Biology", "History", "Economics", "Entrepreneurship", "Accounting", "Computer Science", "Psychology"]
 
@@ -29,6 +29,8 @@ def login():
 def signupwindow():
     global subList
     subList = subjectList
+    global testList
+    testList = testsList
     frame1.destroy()
     frame12.destroy()
     frame2.destroy()
@@ -173,12 +175,18 @@ def signupwindow():
     Test5.current(0)
     Test5.grid(row=4,column=5)
     Test5.bind("<<ComboboxSelected>>", changeTestList)
+
+    resetSubs=tkinter.Button(frame4, text = "Reset Subjects",bg = "RoyalBlue1", font = "Verdana 15 bold", command = lambda:[frame4.place_forget(), frame3.place(relx =0.5, rely=0.5,anchor=tkinter.CENTER)])
+    back.grid(row=6,column=3)
+
+    resetTests=tkinter.Button(frame4, text = "Reset Tests",bg = "RoyalBlue1", font = "Verdana 15 bold", command = lambda:[frame4.place_forget(), frame3.place(relx =0.5, rely=0.5,anchor=tkinter.CENTER)])
+    back.grid(row=6,column=5)
     
     back=tkinter.Button(frame4, text = "Back",bg = "RoyalBlue1", font = "Verdana 15 bold", command = lambda:[frame4.place_forget(), frame3.place(relx =0.5, rely=0.5,anchor=tkinter.CENTER)])
-    back.grid(row=6,column=3)
+    back.grid(row=7,column=3)
     
     submit = tkinter.Button(frame4, text = "Sign up",bg = "RoyalBlue1", font = "Verdana 15 bold", command = signup)
-    submit.grid(row=6,column=5)
+    submit.grid(row=7,column=5)
 
 def changeSubList(*args):
     if Sub1.get() in subList:
@@ -264,6 +272,20 @@ def changeTestList(*args):
         Test5["values"] = ["None"]+testList
         Test5["state"] = "disabled"
     
+def resetSubjects():
+    Sub1["values"] = ["None"]+subjectList
+    Sub2["values"] = ["None"]+subjectList
+    Sub3["values"] = ["None"]+subjectList
+    Sub4["values"] = ["None"]+subjectList
+    Sub5["values"] = ["None"]+subjectList
+
+def resetTests():
+    Test1["values"] = ["None"]+testsList
+    Test2["values"] = ["None"]+testsList
+    Test3["values"] = ["None"]+testsList
+    Test4["values"] = ["None"]+testsList
+    Test5["values"] = ["None"]+testsList
+
 def signup():
     Email1=Email.get()
     Password1=Password.get()
