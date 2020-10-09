@@ -9,7 +9,7 @@ testList = ["SAT", "TOEFL", "IELTS", "SAT Maths 2", "SAT Maths 1", "SAT Literatu
 global subjectList
 subjectList = ["Maths", "Physics", "Chemistry", "English", "Biology", "History", "Economics", "Entrepreneurship", "Accounting", "Computer Science", "Psychology"]
 
-con = sql.connect(host="localhost", user = "root", passwd = "root", database = "tfdb")
+con = sql.connect(host="localhost", user = "root", passwd = "grade12", database = "PythonProject")
 if (con.is_connected()):
     print("Connection is successfull!!")
 else:
@@ -49,6 +49,7 @@ def signupwindow():
     frame2.destroy()
 
     window.configure(bg = "Blue")
+    window.geometry("1200x500")
 
     # FRAME 3
     global frame3
@@ -138,8 +139,8 @@ def signupwindow():
     resetDOBBtn=tkinter.Button(frame4, text = "Reset DOB",bg = "RoyalBlue1", font = font1, command = resetDOB)
     resetDOBBtn.grid(row=7,column=1)
 
-    headinglbl = tkinter.Label(frame4, text = "Select subjects and tests you want to TEACH:", font = font1)
-    headinglbl.grid(row=0,column=2, columnspan=4)
+    subjectSelectlbl = tkinter.Label(frame4, text = "Select subjects and tests you want to TEACH:", font = font1)
+    subjectSelectlbl.grid(row=0,column=2, columnspan=4)
 
     sub1lbl = tkinter.Label(frame4, text = "Subject 1:", bg = "PaleTurquoise1", fg = "Blue4", font = font1)
     sub1lbl.grid(row=1,column=2)
@@ -438,6 +439,7 @@ def signup(Email, Password, FirstName, LastName, Highschool, Undergraduate, Grad
     try:
         cursor.execute("INSERT INTO AccDetails values('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(Email, Password, FirstName, LastName, Highschool, Undergraduate, Graduate, DOB, Sub1, Sub2, Sub3, Sub4, Sub5, Test1, Test2, Test3, Test4, Test5))
         con.commit()
+        profilewindow()
     except sql.Error as Err:
         print(Err)
 
@@ -458,6 +460,64 @@ def update(Password, FirstName, LastName, Highschool, Undergraduate, Graduate, D
     print()
     cursor.close()
 #update(Password, FirstName, LastName, Highschool, Undergraduate, Graduate, DOB, Sub1, Sub2, Sub3, Sub4, Sub5, Test1, Test2, Test3, Test4, Test5, Email)
+
+def profilewindow():
+    window.destroy()
+
+    global window1
+    window1 = tkinter.Tk()
+    window1.geometry("1000x500")
+    window1.configure(bg = "blue")
+    window1.title("Tutor Finder!")
+    
+    # 11 columns
+    # Start:3 End:9
+    headinglbl = tkinter.Label(window1, text = "Student4Student", font = "Verdana 20 bold")
+    headinglbl.grid(row=0, column=2, columnspan=7)
+
+    profilelbl = tkinter.Label(window1, text = "PROFILE")
+    profilelbl.grid(row=1, column=0, columnspan=2, rowspan=2)
+
+    piclbl = tkinter.Label(window1, text = "PIC")
+    piclbl.grid(row=4, column=0, columnspan=2, rowspan=6)
+
+    #global dataFrame
+    dataFrame = tkinter.Frame(window1)
+    dataFrame.grid(row=3, column=2, rowspan=6, columnspan=9)
+
+    Emaillbl = tkinter.Label(dataFrame, text = "Email:")
+    Emaillbl.grid(row=1, column=0)
+
+    EmailVallbl = tkinter.Label(dataFrame, text = "a")
+    EmailVallbl.grid(row=1, column=1, columnspan=2)
+
+    FirstNameLbl = tkinter.Label(dataFrame, text="First Name:")
+    FirstNameLbl.grid(row=2, column=0)
+
+    FirstNameValLbl = tkinter.Label(dataFrame, text="a")
+    FirstNameValLbl.grid(row=2, column=1, columnspan=2)
+
+    LastNameLbl = tkinter.Label(dataFrame, text="Last Name:")
+    LastNameLbl.grid(row=3, column=0)
+
+    LastNameValLbl = tkinter.Label(dataFrame, text="a")
+    LastNameValLbl.grid(row=3, column=1, columnspan=2)
+
+    DateLbl = tkinter.Label(dataFrame, text="Date:")
+    DateLbl.grid(row=4, column=0)
+
+    DateValLbl = tkinter.Label(dataFrame, text="2009-12-23")
+    DateValLbl.grid(row=4, column=1, columnspan=2)
+
+    subPrefLbl = tkinter.Label(dataFrame, text = "Subject Preferences")
+    subPrefLbl.grid(row=0, column=4, columnspan=3)
+
+    testPrefLbl = tkinter.Label(dataFrame, text = "Test Preferences")
+    testPrefLbl.grid(row=0, column=7, columnspan=3)
+
+
+
+    
 
 def search(subs):
     cursor=con.cursor()
@@ -487,6 +547,7 @@ def login():
     if len(records)==1:
         loginErrlbl.pack_forget()
         print("Login Successfull!")
+        profilewindow()
     else:
         loginErrlbl.configure(text="*Incorrect Email or Password. Please try again.*")
         loginErrlbl.pack()
@@ -516,12 +577,17 @@ def main():
     canvas1.update()
     welcomeText1 = canvas1.create_text(canvas1.winfo_width()//2, 500, text = "Welcome To", fill="White", font = "Verdana 50 bold")
     welcomeText2 = canvas1.create_text(canvas1.winfo_width()//2, 555, text = "Tutor Finder!", fill="White", font = "Verdana 50 bold")
+    paratext=canvas1.create_text(canvas1.winfo_width()//2, 680,
+                                 text = "Hi! Tutor Finder is a platform where students can \n teach and learn with each other! Blah blah blah..   ",
+                                 fill="White", font = "Verdana 15 bold")
     xinc = 0
-    yinc = -10
+    yinc = -0.5
     
     while True:
         canvas1.move(welcomeText1, xinc, yinc)
         canvas1.move(welcomeText2, xinc, yinc)
+        canvas1.move(paratext, xinc, yinc)
+        
         canvas1.update()
 
         y = canvas1.bbox(welcomeText1)[1]
