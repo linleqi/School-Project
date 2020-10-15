@@ -461,7 +461,7 @@ def update(Password, FirstName, LastName, Highschool, Undergraduate, Graduate, D
     cursor.close()
 #update(Password, FirstName, LastName, Highschool, Undergraduate, Graduate, DOB, Sub1, Sub2, Sub3, Sub4, Sub5, Test1, Test2, Test3, Test4, Test5, Email)
 
-def profilewindow():
+def profilewindow(record):
     window.destroy()
 
     global window1
@@ -483,40 +483,79 @@ def profilewindow():
 
     #global dataFrame
     dataFrame = tkinter.Frame(window1)
-    dataFrame.grid(row=3, column=2, rowspan=6, columnspan=9)
+    dataFrame.grid(row=3, column=2, rowspan=6, columnspan=5)
 
     Emaillbl = tkinter.Label(dataFrame, text = "Email:")
     Emaillbl.grid(row=1, column=0)
 
-    EmailVallbl = tkinter.Label(dataFrame, text = "a")
+    EmailVallbl = tkinter.Label(dataFrame, text = record[0])
     EmailVallbl.grid(row=1, column=1, columnspan=2)
 
     FirstNameLbl = tkinter.Label(dataFrame, text="First Name:")
     FirstNameLbl.grid(row=2, column=0)
 
-    FirstNameValLbl = tkinter.Label(dataFrame, text="a")
+    FirstNameValLbl = tkinter.Label(dataFrame, text=record[2])
     FirstNameValLbl.grid(row=2, column=1, columnspan=2)
 
     LastNameLbl = tkinter.Label(dataFrame, text="Last Name:")
     LastNameLbl.grid(row=3, column=0)
 
-    LastNameValLbl = tkinter.Label(dataFrame, text="a")
+    LastNameValLbl = tkinter.Label(dataFrame, text=record[3])
     LastNameValLbl.grid(row=3, column=1, columnspan=2)
 
     DateLbl = tkinter.Label(dataFrame, text="Date:")
     DateLbl.grid(row=4, column=0)
 
-    DateValLbl = tkinter.Label(dataFrame, text="2009-12-23")
+    DateValLbl = tkinter.Label(dataFrame, text=record[7])
     DateValLbl.grid(row=4, column=1, columnspan=2)
 
     subPrefLbl = tkinter.Label(dataFrame, text = "Subject Preferences")
-    subPrefLbl.grid(row=0, column=4, columnspan=3)
+    subPrefLbl.grid(row=0, column=4)
 
     testPrefLbl = tkinter.Label(dataFrame, text = "Test Preferences")
-    testPrefLbl.grid(row=0, column=7, columnspan=3)
+    testPrefLbl.grid(row=0, column=5)
 
+    sub1Lbl = tkinter.Label(dataFrame, text=record[8])
+    sub1Lbl.grid(row=1, column=4)
 
+    sub2Lbl = tkinter.Label(dataFrame, text=record[9])
+    sub2Lbl.grid(row=2, column=4)
 
+    sub3Lbl = tkinter.Label(dataFrame, text=record[10])
+    sub3Lbl.grid(row=3, column=4)
+
+    sub4Lbl = tkinter.Label(dataFrame, text=record[11])
+    sub4Lbl.grid(row=4, column=4)
+
+    sub5Lbl = tkinter.Label(dataFrame, text=record[12])
+    sub5Lbl.grid(row=5, column=4)
+
+    test1Lbl = tkinter.Label(dataFrame, text=record[13])
+    test1Lbl.grid(row=1, column=5)
+
+    test2Lbl = tkinter.Label(dataFrame, text=record[14])
+    test2Lbl.grid(row=2, column=5)
+
+    test3Lbl = tkinter.Label(dataFrame, text=record[15])
+    test3Lbl.grid(row=3, column=5)
+
+    test4Lbl = tkinter.Label(dataFrame, text=record[16])
+    test4Lbl.grid(row=4, column=5)
+
+    test5Lbl = tkinter.Label(dataFrame, text=record[17])
+    test5Lbl.grid(row=5, column=5)
+
+    tutorlookuplbl = tkinter.Label(window1, text="Tutor Look-up!")
+    tutorlookuplbl.grid(row=9, column=0, columnspan=1)
+
+    subjects = tkinter.Button(window1, text = "By Subjects",bg = "RoyalBlue1")
+    subjects.grid(row=10, column=1, columnspan=2)
+
+    test = tkinter.Button(window1, text = "By tests",bg = "RoyalBlue1")
+    test.grid(row=10, column=3, columnspan=2)
+
+    college = tkinter.Button(window1, text = "By colleges",bg = "RoyalBlue1")
+    college.grid(row=10, column=5, columnspan=2)
     
 
 def search(subs):
@@ -547,7 +586,7 @@ def login():
     if len(records)==1:
         loginErrlbl.pack_forget()
         print("Login Successfull!")
-        profilewindow()
+        profilewindow(records[0])
     else:
         loginErrlbl.configure(text="*Incorrect Email or Password. Please try again.*")
         loginErrlbl.pack()
