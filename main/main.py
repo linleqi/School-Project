@@ -10,7 +10,7 @@ testList = ["SAT", "TOEFL", "IELTS", "SAT Maths 2", "SAT Maths 1", "SAT Literatu
 global subjectList
 subjectList = ["Maths", "Physics", "Chemistry", "English", "Biology", "History", "Economics", "Entrepreneurship", "Accounting", "Computer Science", "Psychology"]
 
-con = sql.connect(host="localhost", user = "root", passwd = "root", database = "tfdb")
+con = sql.connect(host="localhost", user = "root", passwd = "grade12", database = "PythonProject")
 if (con.is_connected()):
     print("Connection is successfull!!")
 else:
@@ -246,6 +246,7 @@ def search(subs):
 
 class loginWindow():
     def __init__(self, window):
+        window.geometry("1000x500")
         self.frame1 = tkinter.Frame(window)
         self.frame2 = tkinter.Frame(window, bg = "PaleTurquoise1")
         self.frame3 = tkinter.Frame(self.frame2, bg = "PaleTurquoise2", borderwidth = "1", padx = "5", pady = "5", relief = tkinter.GROOVE)
@@ -264,8 +265,8 @@ class loginWindow():
                                     text = "Hi! Tutor Finder is a platform where students can \n teach and learn with each other! Blah blah blah..   ",
                                     fill="White", font = "Verdana 15 bold")
         xinc = 0
-        #yinc = -0.5
-        yinc = -20
+        yinc = -0.5
+        #yinc = -20
         
         while True:
             canvas1.move(welcomeText1, xinc, yinc)
@@ -310,7 +311,6 @@ class loginWindow():
         records=cursor.fetchall()
         if len(records)==1:
             self.loginErrlbl.pack_forget()
-            print("Login Successfull!")
             profileWindow(window, records[0])
         else:
             self.loginErrlbl.configure(text="*Incorrect Email or Password. Please try again.*")
@@ -840,6 +840,9 @@ class profileWindow():
         update = tkinter.Button(self.frame1, text = "Update",bg = "RoyalBlue1", command = updateprofile, font = "Verdana 20 bold")
         update.grid(row=0, column=8)
 
+        update = tkinter.Button(self.frame1, text = "Sign out",bg = "RoyalBlue1", command = self.signout, font = "Verdana 20 bold")
+        update.grid(row=1, column=8)
+
     def profilepic(self):
         pic1 = tkinter.PhotoImage(file="pig.png")
         pic2 = tkinter.PhotoImage(file="bear.png")
@@ -850,9 +853,11 @@ class profileWindow():
         pic=random.choice(lst)
         return pic
 
+    def signout(self):
+        loginWindow(window)
+
 
 window = tkinter.Tk()
-window.geometry("1000x500")
 window.title("Tutor Finder!")
 loginWindow(window)
 window.mainloop()
