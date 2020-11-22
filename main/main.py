@@ -663,7 +663,7 @@ class signupWindow:
 
     def resetSubjects(self):
         self.Sub1["values"] = ["None"] + subjectList
-        self.Sub1["state"] = "normal"
+        self.Sub1["state"] = "readonly"
         self.Sub2["state"] = "disabled"
         self.Sub3["state"] = "disabled"
         self.Sub4["state"] = "disabled"
@@ -676,7 +676,7 @@ class signupWindow:
 
     def resetTests(self):
         self.Test1["values"] = ["None"] + testList
-        self.Test1["state"] = "normal"
+        self.Test1["state"] = "readonly"
         self.Test2["state"] = "disabled"
         self.Test3["state"] = "disabled"
         self.Test4["state"] = "disabled"
@@ -688,7 +688,7 @@ class signupWindow:
         self.Test5.set("")
 
     def resetDOB(self):
-        self.Year["state"] = "normal"
+        self.Year["state"] = "readonly"
         self.Month["state"] = "disabled"
         self.Day["state"] = "disabled"
         self.Month.set("")
@@ -1450,7 +1450,7 @@ class updateWindow:
 
     def resetSubjects(self):
         self.Sub1["values"] = ["None"] + subjectList
-        self.Sub1["state"] = "normal"
+        self.Sub1["state"] = "readonly"
         self.Sub2["state"] = "disabled"
         self.Sub3["state"] = "disabled"
         self.Sub4["state"] = "disabled"
@@ -1463,7 +1463,7 @@ class updateWindow:
 
     def resetTests(self):
         self.Test1["values"] = ["None"] + testList
-        self.Test1["state"] = "normal"
+        self.Test1["state"] = "readonly"
         self.Test2["state"] = "disabled"
         self.Test3["state"] = "disabled"
         self.Test4["state"] = "disabled"
@@ -1495,9 +1495,6 @@ class updateWindow:
         
 
     def checkupdate(self):
-        Highschool1 = self.Highschool.get()
-        Undergraduate1 = self.Undergraduate.get()
-        Graduate1 = self.Graduate.get()
         if self.checkPassword():
             S1 = self.Sub1.get()
             if S1 == "None" or S1 == "":
@@ -1532,9 +1529,9 @@ class updateWindow:
                 T5 = ""
 
             self.update(
-                Highschool1,
-                Undergraduate1,
-                Graduate1,
+                self.Highschool.get(),
+                self.Undergraduate.get(),
+                self.Graduate.get(),
                 S1,
                 S2,
                 S3,
