@@ -568,6 +568,7 @@ class signupWindow:
             records = cursor.fetchall()
             cursor.close()
             if len(records) == 0:
+                self.lblx.pack_forget()
                 self.frame1.place_forget()
                 self.frame2.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
             else:
