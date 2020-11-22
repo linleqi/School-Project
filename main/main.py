@@ -1300,7 +1300,7 @@ class updateWindow:
                             self.Sub5.current(subjectDict[record1[4]])
                             self.disableSub5()
 
-        if record1[5] == "None" or record1[5] == None or record1[4] == "":
+        if record1[5] == "None" or record1[5] == None or record1[5] == "":
             self.Test1.current(0)
             self.Test1["state"] = "readonly"
             self.Test2["state"] = "disabled"
@@ -1310,7 +1310,7 @@ class updateWindow:
         else:
             self.Test1.current(testDict[record1[5]])
             self.Test1["state"] = "disabled"
-            if record1[6] == "None" or record1[6] == None or record1[5] == "":
+            if record1[6] == "None" or record1[6] == None or record1[6] == "":
                 self.disableTest1()
                 self.Test2.current(0)
                 self.Test2["state"] = "readonly"
@@ -1320,16 +1320,16 @@ class updateWindow:
             else:
                 self.Test2.current(testDict[record1[6]])
                 self.Test2["state"] = "disabled"
-                if record1[7] == "None" or record1[7] == None or record1[5] == "":
+                if record1[7] == "None" or record1[7] == None or record1[7] == "":
                     self.disableTest2()
                     self.Test3.current(0)
                     self.Test3["state"] = "readonly"
                     self.Test4["state"] = "disabled"
                     self.Test5["state"] = "disabled"
                 else:
-                    self.Sub3.current(testDict[record1[7]])
+                    self.Test3.current(testDict[record1[7]])
                     self.Test3["state"] = "disabled"
-                    if record1[8] == "None" or record1[8] == None or record1[5] == "":
+                    if record1[8] == "None" or record1[8] == None or record1[8] == "":
                         self.disableTest3()
                         self.Test4.current(0)
                         self.Test4["state"] = "readonly"
@@ -1337,7 +1337,7 @@ class updateWindow:
                     else:
                         self.Test4.current(testDict[record1[8]])
                         self.Test4["state"] = "disabled"
-                        if record1[9] == "None" or record1[9] == None or record1[5] == "":
+                        if record1[9] == "None" or record1[9] == None or record1[9] == "":
                             self.disableTest4()
                             self.Test5.current(0)
                             self.Test5["state"] = "readonly"
@@ -1477,7 +1477,16 @@ class updateWindow:
         
 
     def checkupdate(self):
-        if self.checkPassword():
+        if len(self.Highschool.get())>50:
+            self.lblx.configure(text="*High school is too long (50 character limit)*")
+            self.lblx.pack()
+        elif len(self.Undergraduate.get())>50:
+            self.lblx.configure(text="*Undergraduate is too long (50 character limit)*")
+            self.lblx.pack()
+        elif len(self.Graduate.get())>50:
+            self.lblx.configure(text="*Graduate is too long (50 character limit)*")
+            self.lblx.pack()
+        elif self.checkPassword():
             S1 = self.Sub1.get()
             if S1 == "None" or S1 == "":
                 S1 = ""
