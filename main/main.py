@@ -49,8 +49,7 @@ global font2
 font2 = ("Comic Sans MS", 15, "bold")
 
 global con
-con = mysql.connect(host="localhost", user="root",
-                    passwd="root", database="tfdb")
+con = mysql.connect(host="localhost", user="root", passwd="root", database="tfdb")
 if con.is_connected():
     print("Connection is successfull!!")
 else:
@@ -541,14 +540,26 @@ class signupWindow:
         if self.Email.get() == "":
             self.lblx.configure(text="*Email not entered*")
             self.lblx.pack()
+        elif len(self.Email.get())>50:
+            self.lblx.configure(text="*Email is too long (50 character limit)*")
+            self.lblx.pack()
         elif self.Password.get() == "":
             self.lblx.configure(text="*Password not entered*")
+            self.lblx.pack()
+        elif len(self.Password.get()) > 50:
+            self.lblx.configure(text="*Password is too long (50 character limit)*")
             self.lblx.pack()
         elif self.FirstName.get() == "":
             self.lblx.configure(text="*First name not entered*")
             self.lblx.pack()
+        elif len(self.FirstName.get())>50:
+            self.lblx.configure(text="*First name is too long (50 character limit)*")
+            self.lblx.pack()
         elif self.LastName.get() == "":
             self.lblx.configure(text="*Last name not entered*")
+            self.lblx.pack()
+        elif len(self.LastName.get()) > 50:
+            self.lblx.configure(text="*Last name is too long (60 character limit)*")
             self.lblx.pack()
         else:
             cursor = con.cursor()
@@ -557,7 +568,6 @@ class signupWindow:
             records = cursor.fetchall()
             cursor.close()
             if len(records) == 0:
-                self.lblx.pack_forget()
                 self.frame1.place_forget()
                 self.frame2.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
             else:
@@ -704,17 +714,16 @@ class signupWindow:
         elif self.Day.get() == "":
             self.lblx2.configure(text="Day not entered")
             self.lblx2.pack()
+        elif len(self.Highschool.get())>50:
+            self.lblx.configure(text="*High school is too long (50 character limit)*")
+            self.lblx.pack()
+        elif len(self.Undergraduate.get())>50:
+            self.lblx.configure(text="*Undergraduate is too long (50 character limit)*")
+            self.lblx.pack()
+        elif len(self.Graduate.get())>50:
+            self.lblx.configure(text="*Graduate is too long (50 character limit)*")
+            self.lblx.pack()
         else:
-            Highschool1 = self.Highschool.get()
-            if Highschool1 == "":
-                Highschool1 = None
-            Undergraduate1 = self.Undergraduate.get()
-            if Undergraduate1 == "":
-                Undergraduate1 = None
-            Graduate1 = self.Graduate.get()
-            if Graduate1 == "":
-                Graduate1 = None
-
             DOB1 = (
                 self.Year.get()
                 + "-"
@@ -756,13 +765,6 @@ class signupWindow:
                 T5 = ""
 
             self.signup(
-                self.Email.get(),
-                self.Password.get(),
-                self.FirstName.get(),
-                self.LastName.get(),
-                Highschool1,
-                Undergraduate1,
-                Graduate1,
                 DOB1,
                 S1,
                 S2,
@@ -778,71 +780,51 @@ class signupWindow:
 
     def signup(
         self,
-        Email,
-        Password,
-        FirstName,
-        LastName,
-        Highschool,
-        Undergraduate,
-        Graduate,
-        DOB,
-        Sub1,
-        Sub2,
-        Sub3,
-        Sub4,
-        Sub5,
-        Test1,
-        Test2,
-        Test3,
-        Test4,
-        Test5,
+        DOB1,
+        S1,
+        S2,
+        S3,
+        S4,
+        S5,
+        T1,
+        T2,
+        T3,
+        T4,
+        T5,
     ):
         cursor = con.cursor()
         try:
             cursor.execute(
                 "INSERT INTO AccDetails values('{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}','{}')".format(
-                    Email,
-                    Password,
-                    FirstName,
-                    LastName,
-                    Highschool,
-                    Undergraduate,
-                    Graduate,
-                    DOB,
-                    Sub1,
-                    Sub2,
-                    Sub3,
-                    Sub4,
-                    Sub5,
-                    Test1,
-                    Test2,
-                    Test3,
-                    Test4,
-                    Test5,
+                    self.Email.get(),
+                    self.Password.get(),
+                    self.FirstName.get(),
+                    self.LastName.get(),
+                    self.Highschool.get(),
+                    self.Undergraduate.get(),
+                    self.Graduate.get(),
+                    DOB1,
+                    S1,
+                    S2,
+                    S3,
+                    S4,
+                    S5,
+                    T1,
+                    T2,
+                    T3,
+                    T4,
+                    T5,
                 )
             )
+
             con.commit()
-            record = [
-                Email,
-                Password,
-                FirstName,
-                LastName,
-                Highschool,
-                Undergraduate,
-                Graduate,
-                DOB,
-                Sub1,
-                Sub2,
-                Sub3,
-                Sub4,
-                Sub5,
-                Test1,
-                Test2,
-                Test3,
-                Test4,
-                Test5,
-            ]
-            profileWindow(window, record)
+
+            cursor.execute("SELECT * FROM AccDetails WHERE Email='" + str(self.Email.get()) + "';")
+            records = cursor.fetchall()
+            cursor.close()
+            if len(records) == 1:
+                profileWindow(window, list(records[0]))
+
         except mysql.Error as Err:
             print(Err)
 
