@@ -680,6 +680,7 @@ class signupWindow:
         self.Sub4["state"] = "disabled"
         self.Sub5["state"] = "disabled"
         self.Sub1.current(0)
+        self.Sub1.set("")
         self.Sub2.set("")
         self.Sub3.set("")
         self.Sub4.set("")
@@ -693,6 +694,7 @@ class signupWindow:
         self.Test4["state"] = "disabled"
         self.Test5["state"] = "disabled"
         self.Test1.current(0)
+        self.Test1.set("")
         self.Test2.set("")
         self.Test3.set("")
         self.Test4.set("")
@@ -702,6 +704,7 @@ class signupWindow:
         self.Year["state"] = "readonly"
         self.Month["state"] = "disabled"
         self.Day["state"] = "disabled"
+        self.Year.set("")
         self.Month.set("")
         self.Day.set("")
 
