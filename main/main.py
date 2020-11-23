@@ -4,6 +4,7 @@ import mysql.connector as mysql
 import random
 import tkinter
 from tkinter import ttk
+import validators
 
 global testDict
 testDict = {
@@ -49,7 +50,8 @@ global font2
 font2 = ("Comic Sans MS", 15, "bold")
 
 global con
-con = mysql.connect(host="localhost", user="root", passwd="root", database="tfdb")
+con = mysql.connect(host="sql12.freemysqlhosting.net",
+                    user="sql12378021", passwd="jrP4ygpV8P", database="sql12378021")
 if con.is_connected():
     print("Connection is successfull!!")
 else:
@@ -542,6 +544,9 @@ class signupWindow:
             self.lblx.pack()
         elif len(self.Email.get())>50:
             self.lblx.configure(text="*Email is too long (50 character limit)*")
+            self.lblx.pack()
+        elif validators.email(self.Email.get()) != True:
+            self.lblx.configure(text="*Please enter a valid email*")
             self.lblx.pack()
         elif self.Password.get() == "":
             self.lblx.configure(text="*Password not entered*")
