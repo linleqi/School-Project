@@ -1594,9 +1594,9 @@ class updateWindow:
             profileWindow(window, list(records[0]))
 
 
-class Checkbar:
+class Checkbar(tkinter.Frame):
     def __init__(self, window, picks=[]):
-        window.__init__(self)
+        tkinter.Frame.__init__(self, window)
         self.vars = []
         for pick in picks:
             var = tkinter.StringVar()
@@ -1604,8 +1604,9 @@ class Checkbar:
                 self, text=pick, variable=var, offvalue=None, onvalue=pick
             )
             chk.deselect()
-            chk.pack()
+            chk.pack(side=tkinter.LEFT, anchor=tkinter.W, expand=tkinter.YES)
             self.vars.append(var)
+        
 
     def state(self):
         return map((lambda var: var.get()), self.vars)
@@ -1641,13 +1642,41 @@ class searchWindow:
         self.sublbl = tkinter.Label(
             self.frame1, text="By subjects:", font=font1)
         self.sublbl.grid(row=0, column=0)
+        
+        i = 0
+        row1 = 1
+        self.subCheckBars = []
+        while True:
+            length1 = len(subjectList)
+            if i >= length1:
+                break
+            else:
+                subCheckBar = tkinter.Variable()
+                subCheckBar = Checkbar(self.frame1, subjectList[i:i+3])
+                subCheckBar.grid(row=row1, column=0)
+                i+=3
+                row1+=1
+                self.subCheckBars.append(subCheckBar)
+
+        #subCheckBar = Checkbar(self.frame1, subjectList)
+        #subCheckBar.grid(row=1, column=0)
 
         self.testlbl = tkinter.Label(self.frame1, text="By tests:", font=font1)
-        self.testlbl.grid(row=2, column=0)
+        self.testlbl.grid(row=row1, column=0)
 
         self.schoollbl = tkinter.Label(
             self.frame1, text="By schools:", font=font1)
-        self.schoollbl.grid(row=4, column=0)
+        self.schoollbl.grid(row=row1+10, column=0)
+
+        self.enterBtn = tkinter.Button(self.frame1, text="Search", font = font1, command = self.testingData)
+        self.enterBtn.grid(sticky= tkinter.S)
+
+    def testingData(self):
+        #checkBoxes = map((lambda subCheckBar:subCheckBar.get()), self.subCheckBars)
+        checkBoxes = list(self.subCheckBars)
+        for checkBox in checkBoxes:
+            print(list(checkBox.state()))
+
 
     def search(self, subs):
         cursor = con.cursor()
