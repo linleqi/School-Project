@@ -840,6 +840,7 @@ class signupWindow:
 
 class profileWindow:
     def __init__(self, window, record):
+        self.record1 = record
         for widget in window.winfo_children():
             widget.destroy()
 
@@ -1042,7 +1043,7 @@ class profileWindow:
         return pic
 
     def search(self):
-        searchWindow(window)
+        searchWindow(window, self.record1)
 
     def signout(self):
         loginWindow(window)
@@ -1613,12 +1614,14 @@ class Checkbar(tkinter.Frame):
 
 
 class searchWindow:
-    def __init__(self, window):
+    def __init__(self, window, record):
         window.configure(bg="Blue")
-        window.geometry("1200x500")
+        window.geometry("1200x700")
         for widget in window.winfo_children():
             widget.destroy()
 
+        self.window1 = window
+        self.record1 = record
         # FRAME 1
         self.frame1 = tkinter.Frame(
             window,
@@ -1640,12 +1643,12 @@ class searchWindow:
         self.frame2.place(relx=0.3, relwidth=0.7, relheight=1)
 
         self.sublbl = tkinter.Label(
-            self.frame1, text="By subjects:", font=font1)
+            self.frame1, text="By subjects:", font=font1, bg="PaleTurquoise1")
         self.sublbl.grid(row=0, column=0)
         
         i = 0
         row1 = 1
-        self.subCheckBars = []
+        self.CheckBars = []
         while True:
             length1 = len(subjectList)
             if i >= length1:
@@ -1656,50 +1659,131 @@ class searchWindow:
                 subCheckBar.grid(row=row1, column=0)
                 i+=3
                 row1+=1
-                self.subCheckBars.append(subCheckBar)
+                self.CheckBars.append(subCheckBar)
 
         #subCheckBar = Checkbar(self.frame1, subjectList)
         #subCheckBar.grid(row=1, column=0)
 
-        self.testlbl = tkinter.Label(self.frame1, text="By tests:", font=font1)
+        self.testlbl = tkinter.Label(self.frame1, text="By tests:", font=font1, bg="PaleTurquoise1")
         self.testlbl.grid(row=row1, column=0)
+        row1+=1
+        i = 0
+        while True:
+            length1 = len(testList)
+            if i >= length1:
+                break
+            else:
+                testCheckBar = tkinter.Variable()
+                testCheckBar = Checkbar(self.frame1, testList[i:i+3])
+                testCheckBar.grid(row=row1, column=0)
+                i+=3
+                row1+=1
+                self.CheckBars.append(testCheckBar)
 
         self.schoollbl = tkinter.Label(
-            self.frame1, text="By schools:", font=font1)
-        self.schoollbl.grid(row=row1+10, column=0)
+            self.frame1, text="By schools:", font=font1, bg="PaleTurquoise1")
+        self.schoollbl.grid(row=row1, column=0)
+        row1+=1
 
-        self.enterBtn = tkinter.Button(self.frame1, text="Search", font = font1, command = self.testingData)
+        hslbl = tkinter.Label(
+            self.frame1,
+            text="High School:",
+            bg="PaleTurquoise1",
+            fg="Blue4",
+            font=font1,
+        )
+        hslbl.grid(row=row1, column=0)
+        row1+=1
+        self.Highschool = tkinter.Entry(self.frame1, font=font2)
+        self.Highschool.grid(row=row1, column=0)
+        row1+=1
+
+        uglbl = tkinter.Label(
+            self.frame1,
+            text="Undergraduate School:",
+            bg="PaleTurquoise1",
+            fg="Blue4",
+            font=font1,
+        )
+        uglbl.grid(row=row1, column=0)
+        row1+=1
+        self.Undergraduate = tkinter.Entry(self.frame1, font=font2)
+        self.Undergraduate.grid(row=row1, column=0)
+        row1+=1
+
+        glbl = tkinter.Label(
+            self.frame1,
+            text="Graduate School:",
+            bg="PaleTurquoise1",
+            fg="Blue4",
+            font=font1,
+        )
+        glbl.grid(row=row1, column=0)
+        row1+=1
+        self.Graduate = tkinter.Entry(self.frame1, font=font2)
+        self.Graduate.grid(row=row1, column=0)
+        row1+=1
+
+        self.enterBtn = tkinter.Button(self.frame1, text="Search", font = font1, command = self.search)
         self.enterBtn.grid(sticky= tkinter.S)
 
-    def testingData(self):
+        self.enterBtn = tkinter.Button(self.frame1, text="Go back", font = font1, command = self.goback)
+        self.enterBtn.grid(sticky= tkinter.S)
+
+    def getData(self):
         #checkBoxes = map((lambda subCheckBar:subCheckBar.get()), self.subCheckBars)
-        checkBoxes = list(self.subCheckBars)
+        checkBoxes = list(self.CheckBars)
+        searchList1 = []
         for checkBox in checkBoxes:
-            print(list(checkBox.state()))
+            list1= list(checkBox.state())
+            for element in list1:
+                if element == "0":
+                    pass
+                else:
+                    searchList1.append(element)
+        hs = self.Highschool.get()[0:50]
+        if hs == "":
+            pass
+        else:
+            searchList1.append(hs)
+        
+        ug = self.Undergraduate.get()[0:50]
+        if ug == "":
+            pass
+        else:
+            searchList1.append(ug)
+
+        g = self.Graduate.get()[0:50]
+        if g == "":
+            pass
+        else:
+            searchList1.append(g)
+        return searchList1
 
 
-    def search(self, subs):
+    def search(self):
         cursor = con.cursor()
         cursor.execute(
-            "SELECT Email, Sub1, Sub2, Sub3, Sub4, Sub5, Test1, Test2, Test3, Test4, Test5 FROM AccDetails;"
+            "SELECT Email, HighSchool, UndergraduateSchool, GraduateSchool, Sub1, Sub2, Sub3, Sub4, Sub5, Test1, Test2, Test3, Test4, Test5 FROM AccDetails;"
         )
-
+        tosearch = self.getData()
         searchList = []
         records = cursor.fetchall()
-        print(records)
         for record in records:
-            check = all(item in record[1:] for item in subs)
+            check = all(item in record[1:] for item in tosearch)
             if check is True:
                 cursor.execute(
                     "SELECT * FROM AccDetails WHERE Email = '{}'".format(
                         record[0])
                 )
-                searchList.append(cursor.fetchall())
-                print(record)
+                searchList.append(list(cursor.fetchall()))
             else:
                 print("No!")
-        print(searchList)
         cursor.close()
+
+    def goback(self):
+        profileWindow(self.window1, self.record1)
+
 
 
 window = tkinter.Tk()
