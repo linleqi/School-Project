@@ -92,20 +92,20 @@ class loginWindow:
         welcomeText2 = canvas1.create_text(
             canvas1.winfo_width() // 2,
             555,
-            text="Tutor Finder!",
+            text="Student-4-Student!",
             fill="White",
             font="Verdana 50 bold",
         )
         paratext = canvas1.create_text(
             canvas1.winfo_width() // 2,
             680,
-            text="Hi! Tutor Finder is a platform where students can \n teach and learn with each other! Blah blah blah..   ",
+            text="Hi! Student4Student is a platform where students can \n teach and learn with each other! Blah blah blah..   ",
             fill="White",
             font="Verdana 15 bold",
         )
         xinc = 0
-        #yinc = -0.5
-        yinc = -20
+        yinc = -1
+        #yinc = 0.5
 
         while True:
             canvas1.move(welcomeText1, xinc, yinc)
@@ -1736,10 +1736,10 @@ class searchWindow:
         self.Graduate.grid(row=row1, column=0)
         row1+=1
 
-        self.enterBtn = tkinter.Button(self.frame1, text="Search", font = font1, command = self.search)
+        self.enterBtn = tkinter.Button(self.frame1, text="Search", font = "Verdana 20 bold", command = self.search)
         self.enterBtn.grid(sticky= tkinter.S)
 
-        self.enterBtn = tkinter.Button(self.frame1, text="Go back", font = font1, command = self.goback)
+        self.enterBtn = tkinter.Button(self.frame1, text="Go back", font = "Verdana 20 bold", command = self.goback)
         self.enterBtn.grid(sticky= tkinter.S)
 
         # FRAME 2
@@ -1828,9 +1828,7 @@ class searchWindow:
         profileWindow(window, self.record1)
 
 
-
-
 window = tkinter.Tk()
-window.title("Tutor Finder!")
+window.title("Student4Student!")
 loginWindow(window)
 window.mainloop()
