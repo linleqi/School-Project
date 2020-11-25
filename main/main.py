@@ -967,52 +967,15 @@ class profileWindow:
             self.dataFrame, text=record[17], font="Verdana 20")
         test5Lbl.grid(row=5, column=5)
 
-        tutorlookuplbl = tkinter.Label(
-            self.frame1, text="Tutor Look-up!", font="Verdana 20 bold"
-        )
-        tutorlookuplbl.grid(row=9, column=0, columnspan=1)
 
-        subjects = tkinter.Button(
+        tutorlookup = tkinter.Button(
             self.frame1,
-            text="By Subjects",
+            text="Tutor Look-up!",
             bg="RoyalBlue1",
             font="Verdana 20 bold",
             command=self.search,
         )
-        subjects.grid(
-            row=10,
-            column=1,
-            columnspan=2,
-            sticky=tkinter.N + tkinter.S + tkinter.E + tkinter.W,
-        )
-
-        test = tkinter.Button(
-            self.frame1,
-            text="By tests",
-            bg="RoyalBlue1",
-            font="Verdana 20 bold",
-            command=self.search,
-        )
-        test.grid(
-            row=10,
-            column=3,
-            columnspan=2,
-            sticky=tkinter.N + tkinter.S + tkinter.E + tkinter.W,
-        )
-
-        college = tkinter.Button(
-            self.frame1,
-            text="By colleges",
-            bg="RoyalBlue1",
-            font="Verdana 20 bold",
-            command=self.search,
-        )
-        college.grid(
-            row=10,
-            column=5,
-            columnspan=2,
-            sticky=tkinter.N + tkinter.S + tkinter.E + tkinter.W,
-        )
+        tutorlookup.grid(row=9, column=0)
 
         update = tkinter.Button(
             self.frame1,
@@ -1602,15 +1565,70 @@ class Checkbar(tkinter.Frame):
         for pick in picks:
             var = tkinter.StringVar()
             chk = tkinter.Checkbutton(
-                self, text=pick, variable=var, offvalue=None, onvalue=pick
+                self, text=pick, variable=var, offvalue=None, onvalue=pick, font=font2
             )
             chk.deselect()
             chk.pack(side=tkinter.LEFT, anchor=tkinter.W, expand=tkinter.YES)
             self.vars.append(var)
-        
 
     def state(self):
         return map((lambda var: var.get()), self.vars)
+
+
+class contactAccFrame(tkinter.Frame):
+    def __init__(self, window, record):
+        tkinter.Frame.__init__(self, window, bg="Blue4", highlightbackground="black", highlightthickness="2")
+
+        pic = self.profilepic()
+        piclbl = tkinter.Label(self, image=pic, font="Verdana 20 bold")
+        piclbl.image = pic
+        piclbl.grid(row=0, column=0, columnspan=2, rowspan=6)
+
+        Emaillbl = tkinter.Label(
+            self, text="Email:", font="Verdana 20 bold", bg="PaleTurquoise1")
+        Emaillbl.grid(row=0, column=2)
+
+        EmailVallbl = tkinter.Label(
+            self, text=record[0], font="Verdana 20", bg="PaleTurquoise1")
+        EmailVallbl.grid(row=0, column=3)
+
+        FirstNameLbl = tkinter.Label(
+            self, text="First Name:", font="Verdana 20 bold", bg="PaleTurquoise1"
+        )
+        FirstNameLbl.grid(row=1, column=2)
+
+        FirstNameValLbl = tkinter.Label(
+            self, text=record[2], font="Verdana 20", bg="PaleTurquoise1"
+        )
+        FirstNameValLbl.grid(row=1, column=3)
+
+        LastNameLbl = tkinter.Label(
+            self, text="Last Name:", font="Verdana 20 bold", bg="PaleTurquoise1"
+        )
+        LastNameLbl.grid(row=2, column=2)
+
+        LastNameValLbl = tkinter.Label(
+            self, text=record[3], font="Verdana 20", bg="PaleTurquoise1"
+        )
+        LastNameValLbl.grid(row=2, column=3)
+
+        DateLbl = tkinter.Label(
+            self, text="DOB:", font="Verdana 20 bold", bg="PaleTurquoise1")
+        DateLbl.grid(row=3, column=2)
+
+        DateValLbl = tkinter.Label(
+            self, text=record[7], font="Verdana 20", bg="PaleTurquoise1")
+        DateValLbl.grid(row=3, column=3)
+
+    def profilepic(self):
+        pic1 = tkinter.PhotoImage(file="./pig.png")
+        pic2 = tkinter.PhotoImage(file="./bear.png")
+        pic3 = tkinter.PhotoImage(file="./elephant.png")
+        pic4 = tkinter.PhotoImage(file="./horse.png")
+        pic5 = tkinter.PhotoImage(file="./dog.png")
+        lst = [pic1, pic2, pic3, pic4, pic5]
+        pic = random.choice(lst)
+        return pic
 
 
 class searchWindow:
@@ -1620,7 +1638,6 @@ class searchWindow:
         for widget in window.winfo_children():
             widget.destroy()
 
-        self.window1 = window
         self.record1 = record
         # FRAME 1
         self.frame1 = tkinter.Frame(
@@ -1639,11 +1656,10 @@ class searchWindow:
             pady="35",
             relief=tkinter.GROOVE,
         )
-        self.frame1.place(relx=0, relwidth=0.3, relheight=1)
-        self.frame2.place(relx=0.3, relwidth=0.7, relheight=1)
+        self.frame1.place(relx=0, relwidth=0.4, relheight=1)
 
         self.sublbl = tkinter.Label(
-            self.frame1, text="By subjects:", font=font1, bg="PaleTurquoise1")
+            self.frame1, text="By subjects:", font="Verdana 20 bold", bg="PaleTurquoise1")
         self.sublbl.grid(row=0, column=0)
         
         i = 0
@@ -1654,17 +1670,13 @@ class searchWindow:
             if i >= length1:
                 break
             else:
-                subCheckBar = tkinter.Variable()
                 subCheckBar = Checkbar(self.frame1, subjectList[i:i+3])
                 subCheckBar.grid(row=row1, column=0)
                 i+=3
                 row1+=1
                 self.CheckBars.append(subCheckBar)
 
-        #subCheckBar = Checkbar(self.frame1, subjectList)
-        #subCheckBar.grid(row=1, column=0)
-
-        self.testlbl = tkinter.Label(self.frame1, text="By tests:", font=font1, bg="PaleTurquoise1")
+        self.testlbl = tkinter.Label(self.frame1, text="By tests:", font="Verdana 20 bold", bg="PaleTurquoise1")
         self.testlbl.grid(row=row1, column=0)
         row1+=1
         i = 0
@@ -1681,7 +1693,7 @@ class searchWindow:
                 self.CheckBars.append(testCheckBar)
 
         self.schoollbl = tkinter.Label(
-            self.frame1, text="By schools:", font=font1, bg="PaleTurquoise1")
+            self.frame1, text="By schools:", font="Verdana 20 bold", bg="PaleTurquoise1")
         self.schoollbl.grid(row=row1, column=0)
         row1+=1
 
@@ -1694,7 +1706,7 @@ class searchWindow:
         )
         hslbl.grid(row=row1, column=0)
         row1+=1
-        self.Highschool = tkinter.Entry(self.frame1, font=font2)
+        self.Highschool = tkinter.Entry(self.frame1, font="Verdana 20 bold")
         self.Highschool.grid(row=row1, column=0)
         row1+=1
 
@@ -1707,7 +1719,7 @@ class searchWindow:
         )
         uglbl.grid(row=row1, column=0)
         row1+=1
-        self.Undergraduate = tkinter.Entry(self.frame1, font=font2)
+        self.Undergraduate = tkinter.Entry(self.frame1, font="Verdana 20 bold")
         self.Undergraduate.grid(row=row1, column=0)
         row1+=1
 
@@ -1720,7 +1732,7 @@ class searchWindow:
         )
         glbl.grid(row=row1, column=0)
         row1+=1
-        self.Graduate = tkinter.Entry(self.frame1, font=font2)
+        self.Graduate = tkinter.Entry(self.frame1, font="Verdana 20")
         self.Graduate.grid(row=row1, column=0)
         row1+=1
 
@@ -1730,8 +1742,12 @@ class searchWindow:
         self.enterBtn = tkinter.Button(self.frame1, text="Go back", font = font1, command = self.goback)
         self.enterBtn.grid(sticky= tkinter.S)
 
+        # FRAME 2
+
+        self.frame2.place(relx=0.4, relwidth=0.6, relheight=1)
+
+
     def getData(self):
-        #checkBoxes = map((lambda subCheckBar:subCheckBar.get()), self.subCheckBars)
         checkBoxes = list(self.CheckBars)
         searchList1 = []
         for checkBox in checkBoxes:
@@ -1760,7 +1776,6 @@ class searchWindow:
             searchList1.append(g)
         return searchList1
 
-
     def search(self):
         cursor = con.cursor()
         cursor.execute(
@@ -1770,19 +1785,48 @@ class searchWindow:
         searchList = []
         records = cursor.fetchall()
         for record in records:
-            check = all(item in record[1:] for item in tosearch)
-            if check is True:
-                cursor.execute(
-                    "SELECT * FROM AccDetails WHERE Email = '{}'".format(
-                        record[0])
-                )
-                searchList.append(list(cursor.fetchall()))
+            if record[0] == self.record1[0]:
+                pass
             else:
-                print("No!")
+                check = all(item in record[1:] for item in tosearch)
+                if check is True:
+                    cursor.execute(
+                        "SELECT * FROM AccDetails WHERE Email = '{}'".format(
+                            record[0])
+                    )
+                    searchList.extend(list(cursor.fetchall()))
         cursor.close()
+        self.results(searchList)
+
+    def results(self, resultList):
+        widgets = self.frame2.winfo_children()
+        for widget in widgets:
+            widget.destroy()
+
+        self.canvas1 = tkinter.Canvas(self.frame2)
+        self.canvas1.pack(side = tkinter.LEFT, fill="both", expand=True)
+        self.canvas1.update()
+        
+        self.scroll = ttk.Scrollbar(self.frame2, orient="vertical", command=self.canvas1.yview)
+        self.scroll.pack(side=tkinter.RIGHT, fill="y")
+
+        self.canvas1.bind('<Configure>', lambda e: self.canvas1.configure(scrollregion=self.canvas1.bbox("all")))
+
+        self.myframe = tkinter.Frame(self.canvas1)
+        self.canvas1.create_window((0,0), window=self.myframe)
+        i = 0
+        for record in resultList:
+            accFrame = contactAccFrame(self.myframe, record)
+            accFrame.pack(side=tkinter.TOP, padx = 5, pady = 20)
+            i+=1
+        
+        self.canvas1.configure(yscrollcommand=self.scroll.set)
+        self.canvas1.configure(scrollregion=self.canvas1.bbox("all"))
+
 
     def goback(self):
-        profileWindow(self.window1, self.record1)
+        profileWindow(window, self.record1)
+
 
 
 
