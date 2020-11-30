@@ -916,6 +916,31 @@ class profileWindow:
         DateValLbl = tkinter.Label(
             self.dataFrame, text=record[7], font="Verdana 20")
         DateValLbl.grid(row=4, column=1)
+        
+        HighschoolLbl = tkinter.Label(
+            self.dataFrame, text="Highschool:", font="Verdana 20 bold")
+        HighschoolLbl.grid(row=5, column=0)
+        
+        HighschoolValLbl = tkinter.Label(
+            self.dataFrame, text=record[4], font="Verdana 20")
+        HighschoolValLbl.grid(row=5, column=1)
+        
+        UndergradLbl = tkinter.Label(
+            self.dataFrame, text="Undergraduate:", font="Verdana 20 bold")
+        UndergradLbl.grid(row=6, column=0)
+        
+        UndergradValLbl = tkinter.Label(
+            self.dataFrame, text=record[5], font="Verdana 20")
+        UndergradValLbl.grid(row=6, column=1)
+        
+        GradLbl = tkinter.Label(
+            self.dataFrame, text="Graduate:", font="Verdana 20 bold")
+        GradLbl.grid(row=7, column=0)
+        
+        GradValLbl = tkinter.Label(
+            self.dataFrame, text=record[6], font="Verdana 20")
+        GradValLbl.grid(row=7, column=1)
+        
 
         subPrefLbl = tkinter.Label(
             self.dataFrame, text="Subject Preferences", font="Verdana 20 bold"
